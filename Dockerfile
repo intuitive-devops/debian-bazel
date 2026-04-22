@@ -23,7 +23,14 @@ RUN curl -fsSL -o /usr/local/bin/bazel \
     && chmod +x /usr/local/bin/bazel \
     && ln -s /usr/local/bin/bazel /usr/local/bin/bazelisk
 
-ENV BAZELISK_HOME=/usr/local/share/bazelisk
+RUN groupadd -g 10001 bazel \
+    && useradd -m -u 10001 -g bazel -s /bin/bash bazel \
+    && mkdir -p /workspace /home/bazel/.cache/bazelisk \
+    && chown -R bazel:bazel /workspace /home/bazel
+
+ENV HOME=/home/bazel
+ENV BAZELISK_HOME=/home/bazel/.cache/bazelisk
 WORKDIR /workspace
+USER bazel
 
 CMD ["bazel", "--version"]

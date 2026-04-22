@@ -2,6 +2,8 @@
 
 A Debian + Bazel build container for creating distroless-style images without pulling in extra Google project boilerplate.
 
+The container runs as a non-root `bazel` user by default.
+
 Use it in a multistage Dockerfile:
 
 ```dockerfile
